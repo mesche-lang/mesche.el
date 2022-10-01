@@ -1,6 +1,21 @@
 ;; target argument, populated with actual project targets
 ;; config argument, populated with actual project configs
 
+(require 'transient)
+
+(define-derived-mode mesche-mode scheme-mode "Mesche"
+  "Major mode for editing Mesche code."
+  :group 'lisp
+
+  ;; Add custom keywords
+  ;; (setq font-lock-defaults (append '()
+  ;;                                  font-lock-defaults))
+
+  ;; Customize Scheme indentation
+  (put 'suite 'scheme-indent-function 'defun)
+  (put 'verify 'scheme-indent-function 'defun)
+  (put 'test 'scheme-indent-function 'defun))
+
 (defvar mesche-cli-bin-path "/home/daviwil/Projects/Code/mesche/bin/mesche")
 
 (defun mesche--read-project ()
@@ -13,13 +28,13 @@
 (defun mesche--get-project-configs ()
   (cdadr (mesche--read-project)))
 
-(transient-define-argument mesche-build-command--target-argument ()
-  :description "Build Target"
-  :class transient-switches
-  :key "t"
-  :argument-format "%s"
-  :argument-regexp "\\.*"
-  :choices mesche--get-project-targets)
+;; (transient-define-argument mesche-build-command--target-argument ()
+;;   :description "Build Target"
+;;   :class transient-switches
+;;   :key "t"
+;;   :argument-format "%s"
+;;   :argument-regexp "\\.*"
+;;   :choices mesche--get-project-targets)
 
 (transient-define-argument mesche-build-command--config-argument ()
   :description "Configuration"
